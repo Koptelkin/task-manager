@@ -10,16 +10,20 @@ function showTask() {
 }
 
 function setTask(taskDescription) {
-    if (taskDescription && !task) {
-        task = taskDescription
-    } else if (!taskDescription) {
+    if (!taskDescription) {
         console.log('Введите непустое описание задачи')
-    } else if (task) {
-        console.log('Не могу добавить задачу, завершите или удалите предыдущую')
+        return;
     }
+
+    if (task) {
+        console.log('Не могу добавить задачу, завершите или удалите предыдущую')
+        return;
+    }
+
+    task = taskDescription;
 }
 
-let completeTask = () => {  
+const completeTask = () => {  
      if (!task) {
         console.log('Нет текущей задачи')
     } else {
@@ -28,7 +32,7 @@ let completeTask = () => {
     }
 }
 
-let deleteTask = () => {
+const deleteTask = () => {
     if (!task) {
         console.log('Нет текущей задачи')
     } else {
