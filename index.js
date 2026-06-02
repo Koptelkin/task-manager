@@ -2,12 +2,16 @@ const tasks = [];
 const completedTasks = [];
 let completedTaskCount = 0;
 
+
+// Отображаем всу to-do задачи перебором массива и выводим их в консоль
 function showTask() {
     tasks.forEach((task) => {
         console.log(`Название - ${task.title}, Описание - ${task.description}, Статус - ${task.isCompleted ? 'Выполнено' : 'Не выполнено'}, Дата создания - ${task.createdDate}, Дата выполнения - ${task.completedDate}`);
     })
 }
 
+
+//Добавляем новую задачу в массив задач
 function setTask(title, description) {
     if (!title) {
         console.log('Введите непустое описание задачи')
@@ -23,6 +27,7 @@ function setTask(title, description) {
     })
 }
 
+// Делаем задачу выполненной
 const completeTask = (task) => {  
     task.isCompleted = true;
     task.completedDate = new Date();
@@ -30,6 +35,7 @@ const completeTask = (task) => {
     completedTaskCount++;
 }
 
+//Удаляем задачу. Подтверждаем удаление задачи для невыполеннных задач
 const deleteTask = (task) => {
     if (!task.isCompleted) {
         let shouldDelete = confirm('Задача ещё не выполнена, удалить?');
@@ -49,6 +55,7 @@ const deleteTask = (task) => {
     }
 }   
 
+//Очищаем массив to-do задач
 function clearTasks() {
     tasks.length = 0;
 }
