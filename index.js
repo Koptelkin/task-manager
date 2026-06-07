@@ -3,55 +3,66 @@ const completedTasks = [];
 let completedTaskCount = 0;
 
 
-// Отображаем всу to-do задачи перебором массива и выводим их в консоль
+// Отображаем все to-do задачи перебором массива и выводим их в консоль
 function showTask() {
     tasks.forEach((task) => {
-        console.log(`Название - ${task.title}, Описание - ${task.description}, Статус - ${task.isCompleted ? 'Выполнено' : 'Не выполнено'}, Дата создания - ${task.createdDate}, Дата выполнения - ${task.completedDate}`);
+        const {title, description, isCompleted, createdDate, completedDate} = task
+        console.log(`
+            Название - ${title}, 
+            Описание - ${description}, 
+            Статус - ${isCompleted ? 'Выполнено' : 'Не выполнено'}, 
+            Дата создания - ${createdDate}, 
+            Дата выполнения - ${completedDate}
+        `);
     })
 }
 
 
 //Добавляем новую задачу в массив задач
 function setTask(title, description) {
-    if (!title) {
-        console.log('Введите непустое описание задачи')
+    if (!title || title.trim() === '') {
+        console.log('Введите непустое название задачи')
         return;
     }
 
     tasks.push({
-        title: title, 
-        description: description, 
+        title, 
+        description, 
         isCompleted: false, 
         createdDate: new Date(), 
         completedDate: null
     })
 }
 
-// Делаем задачу выполненной
-const completeTask = (task) => {  
-    task.isCompleted = true;
-    task.completedDate = new Date();
-    completedTasks.push(task);
-    completedTaskCount++;
+// Делаем задачу выполненной по индексу
+const completeTask = (taskIndex) => {
+    const task = tasks[taskIndex];
+
+    if (task) {
+        task.isCompleted = true;
+        task.completedDate = new Date();
+        completedTasks.push(task);
+        completedTaskCount++;
+    } else {
+        console.log('Задача не найдена по указанному индексу')
+        return;
+    }
 }
 
-//Удаляем задачу. Подтверждаем удаление задачи для невыполеннных задач
-const deleteTask = (task) => {
-    if (!task.isCompleted) {
-        let shouldDelete = confirm('Задача ещё не выполнена, удалить?');
-        const index = tasks.indexOf(task);
-        if (shouldDelete) {
-            index > -1 ? tasks.splice(index, 1) : 'Задача не найдена в списке актуальных задач';
+//Удаляем задачу из общего списка задач. Подтверждаем удаление задачи для невыполеннных задач
+const deleteTask = (taskIndex) => {
+    const task = tasks[taskIndex];
 
+    if (task) {
+        if (!task.isCompleted) {
+            confirm('Задача ещё не выполнена, удалить?') ? tasks.splice(taskIndex, 1) : null;
+        } else {
+            tasks.splice(taskIndex, 1);
+            return;
         }
     } else {
-        const completedIndex = completedTasks.indexOf(task);
-        if (completedIndex > -1) {
-            completedTasks.splice(completedIndex, 1);
-            completedTaskCount--;
-        } else {
-            return 'Задача не найдена в списке выполненных задач';
-        }
+        console.log('Задача не найдена по указанному индексу')
+        return;
     }
 }   
 
